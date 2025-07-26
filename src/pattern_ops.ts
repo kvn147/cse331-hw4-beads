@@ -1,4 +1,5 @@
 import { Block, Row, Pattern } from "./pattern";
+import { cons, nil, concat } from "./list";
 
 
 /**
@@ -10,8 +11,20 @@ import { Block, Row, Pattern } from "./pattern";
  *
  */
 export const bflip = (b: Block): Block => {
-  // TODO: replace with translation of math
-  return b;
+  // TODO
+  if (b.form === "waves") {
+    switch(b.direction) {
+      case "TL": return { form: "waves", theme: b.theme, direction: "BL" };
+      case "TR": return { form: "waves", theme: b.theme, direction: "BR" };
+      case "BL": return { form: "waves", theme: b.theme, direction: "TL" };
+      case "BR": return { form: "waves", theme: b.theme, direction: "TR" };
+    }
+  } else {
+    switch(b.direction) {
+      case "L": return { form: "lines", theme: b.theme, direction: "R" };
+      case "R": return { form: "lines", theme: b.theme, direction: "L" };
+    } 
+  }
 };
 
 /**
@@ -23,8 +36,11 @@ export const bflip = (b: Block): Block => {
  *
  */
 export const rflip = (r: Row): Row => {
-  // TODO: replace with translation of math
-  return r;
+  // TODO
+  if (r.kind === "nil") {
+    return r;
+  }
+  return cons(bflip(r.hd), rflip(r.tl));
 };
 
 /**
@@ -36,6 +52,11 @@ export const rflip = (r: Row): Row => {
  *
  */
 export const pflip = (p: Pattern): Pattern => {
-  // TODO: replace with translation of math
-  return p;
+  // TODO
+  if (p.kind === "nil") {
+    return p;
+  }
+  const flippedTail = pflip(p.tl);
+  const flippedHead = cons(rflip(p.hd), nil);
+  return concat(flippedHead, flippedTail);
 };
