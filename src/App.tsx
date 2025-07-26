@@ -32,7 +32,14 @@ export class App extends Component<AppProps, AppState> {
   render = (): JSX.Element => {
     if (this.state.renderPattern === true) {
       // TODO: add needed props to Viewer
-      return <Viewer></Viewer>
+      return <Viewer
+        design={this.state.design}
+        theme={this.state.theme}
+        rows={this.state.rows}
+        flip={this.state.flip}
+        double={this.state.double}
+        onback={() => this.setState({renderPattern: false})}
+      />
     } else {
       return this.renderPatternForm();
     }

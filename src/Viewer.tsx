@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PatternElem, sew } from './pattern_elems';
+import { generatePattern, PatternElem, sew } from './pattern_elems';
 import { Theme, CANDY, CREAMSICLE } from './pattern';
 import { pflip } from './pattern_ops';
 import { nil } from './list';
@@ -7,9 +7,16 @@ import { nil } from './list';
 type ViewerProps = {
   // TODO: fill in props needed from App to initialize component
   //       then replace hardcoded initial vales
+  design?: string,
+  theme?: Theme,
+  rows?: bigint,
+  flip?: boolean,
+  double?: boolean,
+  onback?: () => void
 }
 
 type ViewerState = {
+  design: string,
   theme: Theme,
   rows: bigint,
   flip: boolean,
@@ -21,10 +28,11 @@ export class Viewer extends Component<ViewerProps, ViewerState> {
     super(props);
 
     this.state = {
-      theme: CANDY,
-      rows: 0n,
-      flip: false,
-      double: false
+      design: props.design || "",
+      theme: props.theme || CANDY,
+      rows: props.rows || 2n,
+      flip: props.flip || false,
+      double: props.double || false
     }
   }
 
@@ -37,13 +45,13 @@ export class Viewer extends Component<ViewerProps, ViewerState> {
         <button onClick={this.doFlipClick}>Flip</button>
         {this.renderDoubleBtn()}
       </div>
-      <button onClick={() => console.log("TODO: create handler to replace this")}>Back</button>
+      <button onClick={this.doBackClick}>Back</button>
     </div>
   }
 
   renderPattern = (): JSX.Element => {
     // TODO: replace "nil" with a call to generatePattern() & pass in appropriate params
-    const pattern = nil;
+    const pattern = generatePattern(this.state.design, this.state.theme, this.state.rows);
 
     if (this.state.flip === true && this.state.double === true) {
       return <PatternElem pattern={pflip(sew(pattern, pattern))}></PatternElem>;
@@ -77,7 +85,11 @@ export class Viewer extends Component<ViewerProps, ViewerState> {
 
   doAddRowsClick = (): void => {
     // TODO: update to add the minimum number of rows for the _current design_
-    this.setState({rows: this.state.rows + 2n})
+    if (this.state.design === "slopes") {
+      this.setState({rows: this.state.rows + 1n});
+    } else {
+      this.setState({rows: this.state.rows + 2n});
+    }
   }
 
   doFlipClick = (): void => {
@@ -86,5 +98,11 @@ export class Viewer extends Component<ViewerProps, ViewerState> {
 
   doDoubleClick = (): void => {
     this.setState({double: !this.state.double});
+  }
+
+  doBackClick = (): void => {
+    if (this.props.onback) {
+      this.props.onback();
+    }
   }
 }
