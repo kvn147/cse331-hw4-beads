@@ -1,12 +1,13 @@
 import React, { Component, ChangeEvent } from 'react';
 import { Viewer } from './Viewer';
+import { Theme, CANDY, CREAMSICLE } from './pattern';
 
 type AppProps = {};  // no props
 
 type AppState = {
   renderPattern: boolean,
   design: string,
-  theme: string,
+  theme: Theme | "",
   rows: bigint,
   flip: boolean,
   double: boolean,
@@ -32,6 +33,9 @@ export class App extends Component<AppProps, AppState> {
   render = (): JSX.Element => {
     if (this.state.renderPattern === true) {
       // TODO: add needed props to Viewer
+      if (this.state.theme === "") {
+        throw new Error("App: theme must be set before rendering Viewer");
+      }
       return <Viewer
         design={this.state.design}
         theme={this.state.theme}
@@ -98,7 +102,12 @@ export class App extends Component<AppProps, AppState> {
   }
 
   doColorChange = (evt: ChangeEvent<HTMLSelectElement>): void => {
-    this.setState({theme: evt.target.value, error: ""});
+    const value = evt.target.value;
+    if (value !== CANDY && value !== CREAMSICLE) {
+      this.setState({error: "Must select a valid theme"});
+      return;
+    }
+    this.setState({theme: value, error: ""});
   }
 
   doRowsChange = (evt: ChangeEvent<HTMLInputElement>): void => {

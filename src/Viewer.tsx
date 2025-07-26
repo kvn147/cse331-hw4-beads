@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { generatePattern, PatternElem, sew } from './pattern_elems';
 import { Theme, CANDY, CREAMSICLE } from './pattern';
 import { pflip } from './pattern_ops';
-import { nil } from './list';
 
 type ViewerProps = {
   // TODO: fill in props needed from App to initialize component
