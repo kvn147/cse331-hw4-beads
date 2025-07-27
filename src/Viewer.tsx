@@ -11,7 +11,7 @@ type ViewerProps = {
   rows?: bigint,
   flip?: boolean,
   double?: boolean,
-  onback?: () => void
+  onback?: (design: string, theme: Theme, rows: bigint, flip: boolean, double: boolean) => void
 }
 
 type ViewerState = {
@@ -101,7 +101,7 @@ export class Viewer extends Component<ViewerProps, ViewerState> {
 
   doBackClick = (): void => {
     if (this.props.onback) {
-      this.props.onback();
+      this.props.onback(this.state.design, this.state.theme, this.state.rows, this.state.flip, this.state.double);
     }
   }
 }

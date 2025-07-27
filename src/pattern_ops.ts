@@ -8,6 +8,12 @@ import { cons, nil, concat } from "./list";
  * @returns the flipped version of b as defined by:
  *
  *  TODO: copy your bflip math definition from 4a) here!
+ * bflip({form = "lines", theme = T, direction = L}) = {form = "lines", theme = T, direction = R}
+ * bflip({form = "lines", theme = T, direction = R}) = {form = "lines", theme = T, direction = L}
+ * bflip({form = "waves", theme = T, direction = TL}) = {form = "waves", theme = T, direction = BL}
+ * bflip({form = "waves", theme = T, direction = TR}) = {form = "waves", theme = T, direction = BR}
+ * bflip({form = "waves", theme = T, direction = BR}) = {form = "waves", theme = T, direction = TR}
+ * bflip({form = "waves", theme = T, direction = BL}) = {form = "waves", theme = T, direction = TL}
  *
  */
 export const bflip = (b: Block): Block => {
@@ -33,7 +39,9 @@ export const bflip = (b: Block): Block => {
  * @returns the flipped version of r as defined by:
  *
  *  TODO: copy your rflip math definition from 4c) here!
- *
+ * rflip(nil) := nil
+ * rflip(cons(x,xs)) := cons(bflip(x), rflip(xs))
+ * 
  */
 export const rflip = (r: Row): Row => {
   // TODO
@@ -49,14 +57,14 @@ export const rflip = (r: Row): Row => {
  * @returns the flipped version of p as defined by:
  *
  *  TODO: copy your pflip math definition from 3c) here!
- *
+ * pflip(nil) := nil
+ * pflip(cons(u,us)) := concat(pflip(us), cons(rflip(u), nil))
+ * 
  */
 export const pflip = (p: Pattern): Pattern => {
   // TODO
   if (p.kind === "nil") {
     return p;
   }
-  const flippedTail = pflip(p.tl);
-  const flippedHead = cons(rflip(p.hd), nil);
-  return concat(flippedHead, flippedTail);
+  return concat(pflip(p.tl), cons(rflip(p.hd), nil));
 };

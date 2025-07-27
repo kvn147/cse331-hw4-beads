@@ -9,7 +9,9 @@ import { cons, nil } from './list';
  * @returns an slopes design as defined by:
  *
  *  TODO: copy your "slopes" math definition from 3b) here!
- *
+ *  slopes(0, T) = nil
+ *  slopes(n, T) = cons(cons({form = "lines", theme = T, direction = R}, 
+ *  cons({form = "lines", theme = T, direction = R}, nil)), slopes(n-1, T))
  */
 export const slopes = (rows: bigint, theme: Theme): Pattern => {
   // TODO
@@ -27,7 +29,10 @@ export const slopes = (rows: bigint, theme: Theme): Pattern => {
  * @returns an diamonds design as defined by:
  *
  *  TODO: copy your "diamonds" math definition from 3b) here!
- *
+ *  diamonds(0, T) = nil
+ *  diamonds(n, T) = cons(cons({form = "lines", theme = T, direction = R}, 
+ *  cons({form = "lines", theme = T, direction = L}, nil)), cons(cons({form = "lines", 
+ *  theme = T, direction = L}, cons({form = "lines", theme = T, direction = R}, nil)), diamonds(n-2, T)))
  */
 export const diamonds = (rows: bigint, theme: Theme): Pattern => {
   // TODO
@@ -52,7 +57,11 @@ export const diamonds = (rows: bigint, theme: Theme): Pattern => {
  * @returns an hearts design as defined by:
  *
  *  TODO: copy your "hearts" math definition from 3b) here!
- *
+ * hearts(0, T) = nil
+ * hearts(n, T) = cons(cons({form = "waves", theme = T, direction = TL},
+ * cons({form = "waves", theme = T, direction = TR}, nil)),
+ * cons(cons({form = "lines", theme = T, direction = R},
+ * cons({form = "lines", theme = T, direction = L}, nil)), hearts(n-2, T)))
  */
 export const hearts = (rows: bigint, theme: Theme): Pattern => { 
   // TODO
@@ -77,7 +86,11 @@ export const hearts = (rows: bigint, theme: Theme): Pattern => {
  * @returns an infinities design as defined by:
  *
  *  TODO: copy your "infinities" math definition from 3b) here!
- *
+ * infinities(0, T) = nil
+ * infinities(n, T) = cons(cons({form = "waves", theme = T, direction = TL},
+ * cons({form = "waves", theme = T, direction = TR}, nil)),
+ * cons(cons({form = "waves", theme = T, direction = BL},
+ * cons({form = "waves", theme = T, direction = BR}, nil)), infinities(n-2, T)))
  */
 export const infinities = (rows: bigint, theme: Theme): Pattern => {
   // TODO
